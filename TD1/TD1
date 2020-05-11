@@ -1,0 +1,141 @@
+
+
+1.Énergie cinétique
+a)Demander la masse et la vitesse à l'utilisateur et les storer. Effectuer m*v*v/2 et retourner le résultat.
+b)
+AFFICHER "Entrez la masse"
+LIRE m
+AFFICHER "Entrez la vitesse"
+LIRE v
+AFFICHER "L'énergie cinématique de l'objet est ", (m*v*v/2), " joules."
+
+
+2.Pair/Impair
+a)Demander deux nombre, puis diviser les deux nombres par 2, si un des modulo est égal à 0, afficher qu'un des nombres est pair, sinon impaire. 
+b)
+AFFICHER "Entrez un nombre"
+LIRE n
+AFFICHER "Entrer un deuxième nombre"
+LIRE m
+SI  (n*m)%2 == 0 ALORS
+	AFFICHER "Au moins un des nombres entrés est pair."
+SINON
+	AFFICHER "Aucun des nombres entrés est pair."
+
+3a.Bonds
+a)Demander un entier positif à l'utilisateur puis dans une boucle, lui demander la quantité de nombre puis faire une boucle pour les demander. Puis afficher les nombres en effectuant des bonds.
+b)
+AFFICHER "Entrez un entier positif"
+LIRE b
+AFFICHER "Combien de nombre voulez vous entrer ?"
+LIRE m
+i = 0
+TANT QUE i < m FAIRE
+	AFFICHER "Entrez un nombre"
+	LIRE n
+	tableau[i] = n
+	i += 1
+
+AFFICHER "Les valeurs situées à un bond de ", b, " sont:"
+
+i = 0
+TANT QUE i <= tailleDe(tableau) FAIRE
+	AFFICHER "Position ", i, " : ", tableau[i]
+	i += b
+
+3b.
+a)Demander un entier positif à l'utilisateur puis dans une boucle, lui demander la quantité de nombre puis faire une boucle pour les demander. Puis afficher les nombres représenté en * en effectuant des bonds.
+b)
+FONCTION afficherLigne(ligne)
+	i = 0
+	TANT QUE i <= tailleDe(ligne) FAIRE
+		ligne[i] = "*"
+		i ++
+	AFFICHER ligne
+
+AFFICHER "Entrez un entier positif"
+LIRE b
+AFFICHER "Combien de nombre voulez vous entrer ?"
+LIRE m
+i = 0
+TANT QUE i < m FAIRE
+	AFFICHER "Entrez un nombre"
+	LIRE n
+	tableau[i] = n
+	i += 1
+
+
+AFFICHER "Les valeurs situées à un bond de " b " sont:"
+
+i = 0
+TANT QUE i <= tailleDe(tableau) FAIRE
+	AFFICHER "Position ", i, " : ", afficherLigne(tableau[i])
+	i += b
+
+
+4.
+a)
+b)
+AFFICHER "Entrez une phrase"
+LIRE phrase
+AFFICHER "Entrez une lettre de début"
+LIRE debut
+AFFICHER "Entrez une lettre de fin"
+LIRE fin
+i = 0
+trouve = ""
+TANT QUE i <= longueurDe(phrase) FAIRE
+	SI phrase[i] == debut FAIRE
+		TANT QUE i<= longueurDe(phrase) FAIRE
+			trouve[longeurDe(trouve)] = phrase[i]
+			SI phrase[i] == fin FAIRE
+				i = longueurDe(phrase)
+			i += 1
+	SINON FAIRE
+		i += 1
+
+SI trouve FAIRE
+	AFFICHER trouve
+SINON FAIRE
+	AFFICHER "La séquence n’a pas été trouvée."
+
+5.
+a)
+b)
+min = 100
+max = 0
+n = 0
+TANT QUE n != -1 FAIRE
+	AFFICHER "Entrez un nombre entre 0 et 100. Entrez -1 pour arrêter"
+	LIRE n
+	SI n < min FAIRE
+		min = n
+	SI n > max FAIRE
+		max = n
+AFFICHER "L’écart entre le maximum et le minimum est de ", (max - min)
+
+
+6.
+a)
+b)
+FONCTION ln(x, n)
+	resultat = 0
+	TANT QUE n != 0 FAIRE
+		i = 1
+		num = -1
+		TANT QUE i <= n
+			num = num * (x-1) * -1
+			i += 1
+		resultat = resultat + num / n
+		n -= 1
+	RETOURNE resultat
+
+AFFICHER "Entrez un nombre entre 0 et 2 exclus"
+LIRE x
+SI 0 < x && x < 2 FAIRE
+	AFFICHER "Entrez un nombre de termes"
+	LIRE n
+	AFFICHER "Le logarithme naturel de ", x, " est approximativement ", ln(x, n)
+SINON FAIRE
+	AFFICHER "Le nombre n’est pas valide"
+
