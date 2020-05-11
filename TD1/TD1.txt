@@ -1,5 +1,4 @@
 
-
 1.Énergie cinétique
 a)Demander la masse et la vitesse à l'utilisateur et les storer. Effectuer m*v*v/2 et retourner le résultat.
 b)
@@ -22,6 +21,7 @@ SI  (n*m)%2 == 0 ALORS
 SINON
 	AFFICHER "Aucun des nombres entrés est pair."
 
+
 3a.Bonds
 a)Demander un entier positif à l'utilisateur puis dans une boucle, lui demander la quantité de nombre puis faire une boucle pour les demander. Puis afficher les nombres en effectuant des bonds.
 b)
@@ -43,7 +43,8 @@ TANT QUE i <= tailleDe(tableau) FAIRE
 	AFFICHER "Position ", i, " : ", tableau[i]
 	i += b
 
-3b.
+
+3b.Lignes
 a)Demander un entier positif à l'utilisateur puis dans une boucle, lui demander la quantité de nombre puis faire une boucle pour les demander. Puis afficher les nombres représenté en * en effectuant des bonds.
 b)
 FONCTION afficherLigne(ligne)
@@ -73,8 +74,8 @@ TANT QUE i <= tailleDe(tableau) FAIRE
 	i += b
 
 
-4.
-a)
+4.Séquence
+a)Demander une phrase, un caractère de début et de fin. Itérer dans la phrase jusqu'au caractère de début et storer les lettres jusqu'au caractère de fin. Afficher le résultat si trouvé sinon non trouvé.
 b)
 AFFICHER "Entrez une phrase"
 LIRE phrase
@@ -99,8 +100,8 @@ SI trouve FAIRE
 SINON FAIRE
 	AFFICHER "La séquence n’a pas été trouvée."
 
-5.
-a)
+5.Écart
+a)Demander des nombres, si -1 est entré, arrêter. Comparer les nombres entré avec le min et max puis afficher la différence.
 b)
 min = 100
 max = 0
@@ -115,8 +116,8 @@ TANT QUE n != -1 FAIRE
 AFFICHER "L’écart entre le maximum et le minimum est de ", (max - min)
 
 
-6.
-a)
+6.Logarithme
+a)Demander un nombre et un nombre de terme, si le nombre est entre 0 et 2 exclus, retourner l'approximation, sinon indiquer que le nombre est invalide.
 b)
 FONCTION ln(x, n)
 	resultat = 0
