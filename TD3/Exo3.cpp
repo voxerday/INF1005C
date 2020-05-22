@@ -34,7 +34,7 @@ int main() {
 		std::cout << "Train 1 : " << (pos1 + v1 * i) << std::endl;
 		std::cout << "Train 2 : " << (pos2 + v2 * i) << std::endl;
 	}
-	if (colision <= temps) {
+	if (colision > 0 && colision <= temps) {
 		std::cout << "Il y a eu une collision pendant la " << colision << "e seconde !";
 	}
 	else {
