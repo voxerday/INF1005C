@@ -11,14 +11,16 @@
 
 
 int main() {
+	const int TAILLE_TABLEAU = 10;
+
 	std::cout << "Entrez dix nombres entiers : ";
-	int tableau[10];
+	int tableau[TAILLE_TABLEAU];
 	int temp;
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < TAILLE_TABLEAU; i++) {
 		std::cin >> tableau[i];
 	}
-	for (int i = 0; i < 10; i++) {
-		for (int j = i + 1; j < 10; j++) {
+	for (int i = 0; i < TAILLE_TABLEAU; i++) {
+		for (int j = i + 1; j < TAILLE_TABLEAU; j++) {
 			if (tableau[j] < tableau[i]) {
 				temp = tableau[i];
 				tableau[i] = tableau[j];

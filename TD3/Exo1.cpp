@@ -11,17 +11,17 @@
 int primeCheck(int n) {
     while (true)
     {
-        bool prime = true;
+        bool isPrime = true;
         for (int i = 2; i * i <= n; i++)
         {
             if (n % i == 0)
             {
-                prime = false;
+                isPrime = false;
                 n++;
                 break;
             }
         }
-        if (prime) {
+        if (isPrime) {
             return n;
         }
     }
@@ -30,7 +30,7 @@ int primeCheck(int n) {
 int main() {
 	int n = 0;
     while (n != -1) {
-        std::cout << "Entrezun nombre entier : ";
+        std::cout << "Entrez un nombre entier : ";
         std::cin >> n;
         if (n != -1) {
             std::cout << "Le prochain nombre premier est " << primeCheck(n) << "." << std::endl;

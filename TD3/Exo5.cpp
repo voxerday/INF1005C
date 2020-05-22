@@ -23,8 +23,8 @@ int main() {
         int quantite;
     };
     struct Inventaire {
-        Aliment aliment[MAX_ALIMENTS];
-        int nb = 0;
+        Aliment aliments[MAX_ALIMENTS];
+        int nAliments = 0;
     };
 
     std::ifstream fichier(nomInventaire, std::ios::in);
@@ -33,20 +33,20 @@ int main() {
         Inventaire inventaire;
         while (getline(fichier, ligne)) {
             std::istringstream stream(ligne);
-            getline(stream, inventaire.aliment[inventaire.nb].nom, '\t');
-            getline(stream, inventaire.aliment[inventaire.nb].type, '\t');
-            stream >> inventaire.aliment[inventaire.nb].quantite >> inventaire.aliment[inventaire.nb].prix;
-            inventaire.nb += 1;
+            getline(stream, inventaire.aliments[inventaire.nAliments].nom, '\t');
+            getline(stream, inventaire.aliments[inventaire.nAliments].type, '\t');
+            stream >> inventaire.aliments[inventaire.nAliments].quantite >> inventaire.aliments[inventaire.nAliments].prix;
+            inventaire.nAliments += 1;
         }
         int i = 0;
-        for (int j = 1; j < inventaire.nb; j++) {
-            if (inventaire.aliment[i].prix < inventaire.aliment[j].prix) {
+        for (int j = 1; j < inventaire.nAliments; j++) {
+            if (inventaire.aliments[i].prix < inventaire.aliments[j].prix) {
                 i = j;
             }
         }
-        std::cout << inventaire.aliment[i].quantite
-            << " " << inventaire.aliment[i].nom
-            << " (" << inventaire.aliment[i].type << ")"
-            << " a " << std::setprecision(2) << std::fixed << inventaire.aliment[i].prix << "$ chacun";
+        std::cout << inventaire.aliments[i].quantite
+            << " " << inventaire.aliments[i].nom
+            << " (" << inventaire.aliments[i].type << ")"
+            << " a " << std::setprecision(2) << std::fixed << inventaire.aliments[i].prix << "$ chacun";
     }
 }

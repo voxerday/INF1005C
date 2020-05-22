@@ -22,11 +22,13 @@ int lireValeur(std::string texte, int min, int max) {
 }
 
 int main() {
+	int maxRandom = 1000;
+
 	srand(time(NULL));
-	int devine = rand() % 1000;
+	int devine = rand() % maxRandom;
 	int essai;
 	do {
-		essai = lireValeur("Entrez un nombre entier : ", 0, 1000);
+		essai = lireValeur("Entrez un nombre entier : ", 0, maxRandom);
 		if (essai < devine) {
 			std::cout << "Trop bas." << std::endl;
 		}
