@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // \title       Collision
 // \file        Exo3.cpp
-// \author      Marc-André Gosselin (2020217)
+// \author      Marc-AndrÃ© Gosselin (2020217)
 // \author      Martin Careau (1978446)
 // \date        24/05/2020
 ///////////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ int main() {
 	int v1 = lireValeur("Entrez la vitesse du premier train : ", INT_MIN, INT_MAX);
 	int pos2 = lireValeur("Entrez la position initiale du second train : ", INT_MIN, INT_MAX);
 	int v2 = lireValeur("Entrez la vitesse du second train : ", INT_MIN, INT_MAX);
-	int colision = INT_MAX;
+	int colision;
 	if ((v2 - v1) != 0) {
 		colision = ((pos1 - pos2) / (v2 - v1)) + ((pos1 - pos2) % (v2 - v1) != 0);
 	}
