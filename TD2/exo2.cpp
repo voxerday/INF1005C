@@ -8,13 +8,12 @@
 
 #include <iostream>
 
-//import std; did you mean using namespace std;
 
 int main() {
 	int tempsDebut, tempsFin;
 	std::cout << "Veuillez entrer le temps de debut en secondes" << std::endl;
 	std::cin >> tempsDebut;
-	std::cout << "Veuillez entrer le temps de debut en secondes" << std::endl;
+	std::cout << "Veuillez entrer le temps de fin en secondes" << std::endl;
 	std::cin >> tempsFin;
 	int duree = tempsFin - tempsDebut;
 	bool dureeValide = duree > 0;
@@ -26,5 +25,4 @@ int main() {
 		<< (duree % 86400) / 3600 << " heures" << std::endl
 		<< (duree % 3600) / 60 << " minutes" << std::endl
 		<< duree % 60 << " secondes" << std::endl;
-	return 0;
 }

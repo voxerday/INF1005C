@@ -1,14 +1,15 @@
-//////////////////////////////////////////////////////////////////////////////
-// \file   exo4.cpp
-// \author Marc-André Gosselin (2020217)
-// \author Martin Careau (1978446)
-// \date   2020/05/20
-//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+// \title		Programme qui calcule l'énergie cinétique (joules)
+// \file		exo1.cpp
+// \author		Marc-André Gosselin et Martin Careau
+// \matricule	2020217 et 1978446
+// \date		20 mai 2020
+///////////////////////////////////////////////////////////////////////////////////
+
 
 
 
 #include <iostream>
-#include <random>
 #include <time.h>
 
 int multiplication(int a, int b) {
@@ -20,8 +21,7 @@ int multiplication(int a, int b) {
 }
 
 
-
-int main() {
+int main3() {
 	//Initialisation du seed
 	srand(time(NULL));
 	for (int i = 0; i < 3; i++) {
@@ -36,19 +36,3 @@ int main() {
 	}
 	return 0;
 }
-
-
-//int main() {
-//	int a[3] = { 23, 10, 18 };
-//	int b[3] = { 45, 12, 17 };
-//	for (int i = 0; i < 3; i++) {
-//		int result = a[i] * b[i];
-//		bool match = result == multiplication(a[i], b[i]);
-//		std::cout << a[i] << " X " << b[i] << " = " << result << "\t"
-//		<< std::boolalpha
-//		<< match
-//		<< std::endl;
-//	}
-//	
-//
-//}

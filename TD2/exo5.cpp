@@ -10,7 +10,7 @@
 #include <string>
 #include <iomanip>
 
-int main() {
+int main3() {
     //Initialisation des constantes 
     const int MAX_PARTICIPANTS = 5;
     const int MAX_LONG = 9;
@@ -28,18 +28,20 @@ int main() {
 
     if (stat)
     {
-        while (stat >> nom >> cash)
+        while (!ws(stat).eof())
         {
+            stat >> nom;
+            stat>> cash;
             if (cash) {
                 nb += 1;
                 dette += cash;
-                gagnants << std::left << std::setw(MAX_LONG) << std::setfill(' ')
-                    << nom << std::right << std::setw(MAX_LONG) << std::setfill(' ')
+                gagnants << std::left << std::setw(MAX_LONG)
+                    << nom << std::right << std::setw(MAX_LONG)
                     << cash << "$" << std::endl;
             }
         }
-        gagnants << std::endl << std::left << std::setw(MAX_LONG) << std::setfill(' ')
-            << "TOTAL :" << std::right << std::setw(MAX_LONG) << std::setfill(' ')
+        gagnants << std::endl << std::left << std::setw(MAX_LONG)
+            << "TOTAL :" << std::right << std::setw(MAX_LONG)
             << dette << "$" << std::endl
             << "NOMBRE DE GAGNANTS : " << nb;
     }
@@ -47,4 +49,5 @@ int main() {
         std::cerr << "Le fichier " << nomStat
             << " n'existe pas. Assurez vous de le mettre au bon endroit.\n";
     }
+    return 0;
 }

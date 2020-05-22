@@ -1,5 +1,5 @@
 Doctor	5875.70
 Rose	1390.28
-Amy	0
+Amy	1.09
 Rory	850.43
 Mickey	0

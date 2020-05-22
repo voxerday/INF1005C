@@ -16,5 +16,4 @@ int main() {
 	std::cout << "Veuillez entrer la vitesse" << std::endl;
 	std::cin >> v;
 	std::cout << "L'energie cinetique de l'objet est " << (m * v * v / 2) << " joules." << std::endl;
-	return 0;
 }
