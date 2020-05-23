@@ -7,23 +7,20 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
-#include <sstream>
+
 
 
 int main() {
-	const int TAILLE_TABLEAU = 10;
+	const int tailleTableau = 10;
 
 	std::cout << "Entrez dix nombres entiers : ";
-	int tableau[TAILLE_TABLEAU];
+	int tableau[tailleTableau];
 	int temp;
-	std::string line;
-	getline(std::cin, line);
-	std::stringstream stream(line);
 	for (int i = 0; i < tailleTableau; i++) {
-		stream >> tableau[i];
+		std::cin >> tableau[i];
 	}
-	for (int i = 0; i < TAILLE_TABLEAU; i++) {
-		for (int j = i + 1; j < TAILLE_TABLEAU; j++) {
+	for (int i = 0; i < tailleTableau; i++) {
+		for (int j = i + 1; j < tailleTableau; j++) {
 			if (tableau[j] < tableau[i]) {
 				temp = tableau[i];
 				tableau[i] = tableau[j];

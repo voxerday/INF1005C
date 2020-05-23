@@ -25,7 +25,7 @@ int main() {
 	int v1 = lireValeur("Entrez la vitesse du premier train : ", INT_MIN, INT_MAX);
 	int pos2 = lireValeur("Entrez la position initiale du second train : ", INT_MIN, INT_MAX);
 	int v2 = lireValeur("Entrez la vitesse du second train : ", INT_MIN, INT_MAX);
-	int colision;
+	int colision = INT_MAX;
 	if ((v2 - v1) != 0) {
 		colision = ((pos1 - pos2) / (v2 - v1)) + ((pos1 - pos2) % (v2 - v1) != 0);
 	}

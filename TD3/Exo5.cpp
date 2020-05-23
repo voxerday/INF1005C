@@ -13,7 +13,7 @@
 
 int main() {
 
-    const int MAX_ALIMENTS = 10;
+    const int maxAliment = 10;
     const std::string nomInventaire = "inventaire.txt";
 
     struct Aliment {
@@ -23,7 +23,7 @@ int main() {
         int quantite;
     };
     struct Inventaire {
-        Aliment aliments[MAX_ALIMENTS];
+        Aliment aliments[maxAliment];
         int nAliments = 0;
     };
 
