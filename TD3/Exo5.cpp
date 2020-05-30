@@ -13,7 +13,7 @@
 
 int main() {
 
-    const int maxAliment = 10;
+    const int maxAliment = 5;
     const std::string nomInventaire = "inventaire.txt";
 
     struct Aliment {
@@ -31,11 +31,11 @@ int main() {
     if (fichier) {
         std::string ligne;
         Inventaire inventaire;
-        while (getline(fichier, ligne)) {
-            std::istringstream stream(ligne);
-            getline(stream, inventaire.aliments[inventaire.nAliments].nom, '\t');
-            getline(stream, inventaire.aliments[inventaire.nAliments].type, '\t');
-            stream >> inventaire.aliments[inventaire.nAliments].quantite >> inventaire.aliments[inventaire.nAliments].prix;
+        while (!ws(fichier).eof()) {
+            getline(fichier, inventaire.aliments[inventaire.nAliments].nom, '\t');
+            getline(fichier, inventaire.aliments[inventaire.nAliments].type, '\t');
+            fichier >> inventaire.aliments[inventaire.nAliments].quantite 
+                >> inventaire.aliments[inventaire.nAliments].prix;
             inventaire.nAliments += 1;
         }
         int i = 0;
