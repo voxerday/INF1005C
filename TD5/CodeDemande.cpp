@@ -1,6 +1,14 @@
-////////////////////////////////////////////////////////////////////////////////
-////		ENTETE
-////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// \title       Travail dirigé no 5
+// \description Programme qui accomplit plusieurs fonctions sur une image BMP telles que lire 
+//              les entêtes BMP et DIB d'un fichier, lire les données de l'image, les écrire, 
+//              allouer l'image, la désallouer, extraire des morceaux de l'image, décomposer l'image,
+//              la mélanger et la recomposer.
+// \file        CodeDemande.cpp
+// \author      Marc-André Gosselin (2020217)
+// \author      Martin Careau (1978446)
+// \date        09/06/2020
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 #pragma region "Inclusions" //{
@@ -16,7 +24,7 @@
 
 
 using namespace std;
-#include <iostream>
+
 #pragma endregion //}
 
 
@@ -28,228 +36,224 @@ using namespace std;
 
 
 /**
- * Lit une dimension des morceaux et s'assure qu'elle est valide
+ * Lit les entêtes BMP et DIB d'un fichier donné.
  *
- * \param [in] fichier				Le fichier a lire l'entete
+ * \param [in] fichier				Le fichier à lire l'entête
  *
- * \return l'entete DIB du fichier donne
+ * \return l'entête DIB du fichier donné
  */
-EnteteDib lireEnteteFichier ( fstream& fichier )
+EnteteDib lireEnteteFichier(fstream& fichier)
 {
-    EnteteDib enteteDib = construireDibVide();
-    EnteteBmp enteteBmp = construireBmpVide();
+	EnteteDib enteteDib = construireDibVide();
+	EnteteBmp enteteBmp = construireBmpVide();
 
-    fichier.seekg(sizeof(enteteBmp), ios::beg);
-    fichier.read((char*)&enteteDib, sizeof(enteteDib));
+	fichier.seekg(sizeof(enteteBmp), ios::beg);
+	fichier.read((char*)&enteteDib, sizeof(enteteDib));
 
-    return enteteDib;
+	return enteteDib;
 }
 
 
 /**
- * Lit les pixels dâ€™une image Ã  partir dâ€™un fichier
+ * Lit les pixels d’une image à partir d’un fichier binaire
  *
- * \param [in] fichier			Le fichier overt en binaire avec l'image
- * \param [in] image		    L'image deja allouee
+ * \param [in] fichier			Le fichier ouvert en binaire qui contient l'image
+ * \param [in] image		    L'image deja allouée
+ *
+ * \return Rien
  */
-void lireDonneesImage ( fstream& fichier, Image& image )
+void lireDonneesImage(fstream& fichier, Image& image)
 {
-	// TODO: Se positionner au dÃ©but du tableau de pixels dans le fichier.
-    EnteteDib enteteDib = construireDibVide();
-    EnteteBmp enteteBmp = construireBmpVide();
-    fichier.seekg(sizeof(enteteBmp) + sizeof(enteteDib), ios::beg);
-	// TODO: Pour chaque ligne de l'image, lire la ligne et sauter le padding.
-    unsigned padding = calculerTaillePadding(image);
-    for (int hauteur : range(image.hauteur)) {
-        for (int largeur : range(image.largeur)) {
-            Pixel pixel{};
-            fichier.read((char*)&pixel, sizeof(pixel));
-            image.pixels[hauteur][largeur] = pixel;
-        }
-        fichier.seekg(padding, ios::cur);
-    }
+	EnteteDib enteteDib = construireDibVide();
+	EnteteBmp enteteBmp = construireBmpVide();
+	fichier.seekg(sizeof(enteteBmp) + sizeof(enteteDib), ios::beg);
+
+	unsigned padding = calculerTaillePadding(image);
+	for (int hauteur : range(image.hauteur)) {
+		for (int largeur : range(image.largeur)) {
+			Pixel pixel{};
+			fichier.read((char*)&pixel, sizeof(pixel));
+			image.pixels[hauteur][largeur] = pixel;
+		}
+		fichier.seekg(padding, ios::cur);
+	}
 }
 
 
 /**
- * Ecrit les pixels d'une image dans un fichier
+ * Écrit les pixels d'une image dans un fichier binaire
  *
- * \param [in] fichier			Le fichier overt en binaire pour l'ecriture
- * \param [in] image		    L'image a ecrire
+ * \param [in] fichier			Le fichier ouvert en binaire pour l'écriture
+ * \param [in] image		    L'image à écrire
+ *
+ * \return Rien
  */
-void ecrireDonneesImage ( fstream& fichier, const Image& image )
+void ecrireDonneesImage(fstream& fichier, const Image& image)
 {
-	// TODO: Se positionner au dÃ©but du tableau de pixels dans le fichier (aprÃ¨s
-	//       les entÃªtes).
-    EnteteDib enteteDib = construireDibVide();
-    EnteteBmp enteteBmp = construireBmpVide();
-    fichier.seekg(sizeof(enteteBmp) + sizeof(enteteDib), ios::beg);
-	// TODO: Pour chaque ligne de l'image, Ã©crire la ligne puis Ã©crire des bytes
-	//       Ã  zÃ©ro pour le padding.
-    int zero = 0;
-    unsigned padding = calculerTaillePadding(image);
-    for (int hauteur : range(image.hauteur)) {
-        for (int largeur : range(image.largeur)) {
-            Pixel pixel = image.pixels[hauteur][largeur];
-            fichier.write((char*)&pixel, sizeof(pixel));
-        }
-        fichier.write((char*)&zero, padding);
-    }
+	EnteteDib enteteDib = construireDibVide();
+	EnteteBmp enteteBmp = construireBmpVide();
+	fichier.seekg(sizeof(enteteBmp) + sizeof(enteteDib), ios::beg);
+
+	int zero = 0;
+	unsigned padding = calculerTaillePadding(image);
+	for (int hauteur : range(image.hauteur)) {
+		for (int largeur : range(image.largeur)) {
+			Pixel pixel = image.pixels[hauteur][largeur];
+			fichier.write((char*)&pixel, sizeof(pixel));
+		}
+		fichier.write((char*)&zero, padding);
+	}
 }
 
 
 /**
- * Ecrire une image dans un fichier
+ * Écrire une image dans un fichier binaire
  *
- * \param [in] nomFichier		Le nom du fichier image
- * \param [in] image		    L'image a ecrire
- * \param [in] ok               un bool representant le succes de l'opperation
+ * \param [in] nomFichier		Le nom du fichier image à ouvrir en écriture binaire
+ * \param [in] image		    L'image à écrire
+ * \param [in] ok               Un bool représentant le succès de l'opération
+ *
+ * \return Rien
  */
-void ecrireImage ( const string& nomFichier, const Image& image, bool& ok )
+void ecrireImage(const string& nomFichier, const Image& image, bool& ok)
 {
-	// TODO: Ouvrir un fichier en Ã©criture binaire.
-    fstream fichier(nomFichier, ios::out | ios::binary);
-	// Si l'ouverture n'a pas Ã©chouÃ©e :
-    ok = !fichier.fail();
-    if (ok == true) {
-        fichier.seekp(0, ios::beg);
-		// TODO: Construire les entÃªtes Ã  partir de l'image.
-        EnteteBmp enteteBmp = construireEnteteBmp(image);
-        EnteteDib enteteDib = construireEnteteDib(image);
-		// TODO: Ã‰crire les entÃªtes dans le fichier.
-        fichier.write((char*)&enteteBmp, sizeof(enteteBmp));
-        fichier.write((char*)&enteteDib, sizeof(enteteDib));
-		// TODO: Ã‰crire les donnÃ©es (pixels) de l'image dans le fichier.
-        ecrireDonneesImage(fichier, image);
-    }
+	fstream fichier(nomFichier, ios::out | ios::binary);
+
+	ok = !fichier.fail();
+	if (ok == true) {
+		fichier.seekp(0, ios::beg);
+
+		EnteteBmp enteteBmp = construireEnteteBmp(image);
+		EnteteDib enteteDib = construireEnteteDib(image);
+
+		fichier.write((char*)&enteteBmp, sizeof(enteteBmp));
+		fichier.write((char*)&enteteDib, sizeof(enteteDib));
+
+		ecrireDonneesImage(fichier, image);
+	}
 }
 
 
 /**
- * Alloue une image avec la hauteur et largeur
+ * Alloue avec un pointeur une image selon la hauteur et la largeur
  *
  * \param [in] largeur			Largeur de l'image
  * \param [in] hauteur          Hauteur de l'image
  *
- * \return une image alloue ou vide s'il y a eu un echec
+ * \return Une image allouée ou vide (s'il y a eu un échec)
  */
 Image allouerImage(unsigned largeur, unsigned hauteur)
 {
-    Image image{};
-    // Si la largeur ET la hauteur ne sont pas nulles :
-    if (largeur != 0 && hauteur != 0) {
-        // TODO: Affecter les dimensions Ã  l'image.
-        image.hauteur = hauteur;
-        image.largeur = largeur;
-        // TODO: Allouer un tableau dynamique de pixels pour l'image.
-        //       On veut Image::hauteur de lignes qui ont chacune
-        //       Image::largeur de pixels.
-        image.pixels = new Pixel * [hauteur];
-        for (int i : range(hauteur)) {
-            image.pixels[i] = new Pixel[largeur];
-        }
-    }
-    return image;
+	Image image{};
+
+	if (largeur != 0 && hauteur != 0) {
+
+		image.hauteur = hauteur;
+		image.largeur = largeur;
+
+		image.pixels = new Pixel * [hauteur];
+		for (int i : range(hauteur)) {
+			image.pixels[i] = new Pixel[largeur];
+		}
+	}
+	return image;
 }
 
 
 /**
  * Retire l'allocation de pointeur d'une image
  *
- * \param [in] image				L'image a desallouer
+ * \param [in] image				L'image à désallouer
+ *
+ * \return Rien
  */
 void desallouerImage(Image& image)
 {
-    // Si le tableau dynamique de l'image n'est pas nul :
-    if (image.pixels != nullptr) {
-        // TODO: DÃ©sallouer le tableau 2D.
-        for (int i : range(image.hauteur)) {
-            delete image.pixels[i];
-        }
-        delete image.pixels;
-        image.pixels = 0;
-    }
+	if (image.pixels != nullptr) {
+
+		for (int i : range(image.hauteur)) {
+			delete image.pixels[i];
+		}
+		delete image.pixels;
+		image.pixels = 0;
+	}
 }
 
 
 /**
  * Lit une image d'un fichier
  *
- * \param [in] nomFichier		Le nom du fichier image
- * \param [in] ok               un bool representant la reussite de l'ouverture  
+ * \param [in] nomFichier		Le nom du fichier image à ouvrir en lecture binaire
+ * \param [in] ok               Un bool représentant la réussite (ou non) de l'ouverture
  *
  * \return L'image extraite du fichier
  */
-Image lireImage ( const string& nomFichier, bool& ok )
+Image lireImage(const string& nomFichier, bool& ok)
 {
-	// TODO: Ouvrir le fichier en lecture binaire.
-    fstream fichier(nomFichier, ios::in | ios::binary);
-    Image image{};
-    ok = !fichier.fail();
-	// Si l'ouverture n'a pas Ã©chouÃ©e :
-    if (ok == true) {
-        // TODO: Lire l'entÃªte DIB.
-        EnteteDib enteteDib = lireEnteteFichier(fichier);
-        // TODO: Allouer une image selon le contenu du DIB.
-        image = allouerImage(enteteDib.largeurImage, enteteDib.hauteurImage);
-        // TODO: Lire les pixels du fichier.
-        lireDonneesImage(fichier, image);
-    }
-    return image;
+	fstream fichier(nomFichier, ios::in | ios::binary);
+	Image image{};
+	ok = !fichier.fail();
+
+	if (ok == true) {
+
+		EnteteDib enteteDib = lireEnteteFichier(fichier);
+
+		image = allouerImage(enteteDib.largeurImage, enteteDib.hauteurImage);
+
+		lireDonneesImage(fichier, image);
+	}
+	return image;
 }
 
 
 /**
  * Extrait un rectangle dans l'image
  *
- * \param [in] image				L'image a extraire un rectangle
- * \param [in] x            		La position en x du coin haut gauche
- * \param [in] y            		La position en y du coin haut gauche
+ * \param [in] image				L'image à extraire un rectangle
+ * \param [in] x            		La position en x du coin haut gauche de l'image
+ * \param [in] y            		La position en y du coin haut gauche de l'image
  * \param [in] hauteur      		La hauteur du rectangle
  * \param [in] largeur      		La largeur du rectangle
  *
- * \return le morceau de l'image
+ * \return Le morceau de l'image
  */
-Image extraireMorceau ( const Image& image, const int x, const int y, const int hauteur, const int largeur)
+Image extraireMorceau(const Image& image, const int x, const int y, const int hauteur, const int largeur)
 {
-	// TODO: Allouer une image de la taille du morceau Ã  extraire
-    Image morceau = allouerImage(largeur, hauteur);
-	// TODO: Copier les pixels du morceau dans l'image.
-    morceau.pixels = new Pixel *[hauteur];
-    for (int i : range(hauteur)) {
-        morceau.pixels[i] = new Pixel[largeur];
-        for (int j : range(largeur)) {
-            morceau.pixels[i][j] = image.pixels[y * hauteur + i][x * largeur + j];
-        }
-    }
-    return morceau;
+	Image morceau = allouerImage(largeur, hauteur);
+
+	for (int i : range(hauteur)) {
+		for (int j : range(largeur)) {
+			morceau.pixels[i][j] = image.pixels[y + i][x + j];
+		}
+	}
+	return morceau;
 }
 
 
 /**
- * Decompose une image en plusieurs morceaux
+ * Décompose une image en plusieurs morceaux
  *
- * \param [in] image				L'image a decomposer
+ * \param [in] image				L'image à décomposer
  * \param [in] hauteurMorceaux		La hauteur du morceau
  * \param [in] largeurMorceaux		La largeur du morceau
  *
- * \return l'image decomposee en morceaux
+ * \return L'image décomposée en morceaux
  */
 ImageDecomposee decomposerImage(const Image& image, const int hauteurMorceaux, const int largeurMorceaux)
 {
-    ImageDecomposee imageDecomposee{};
-	// TODO: SpÃ©cifier le nombre de morceaux en x et en y contenus dans l'image
-    imageDecomposee.nMorceauxX = image.largeur / largeurMorceaux;
-    imageDecomposee.nMorceauxY = image.hauteur / hauteurMorceaux;
-	// TODO: Allouer morceaux en fonction du nombre de morceaux en y
-    imageDecomposee.morceaux = new Image* [imageDecomposee.nMorceauxY];
+	ImageDecomposee imageDecomposee{};
+
+	imageDecomposee.nMorceauxX = image.largeur / largeurMorceaux;
+	imageDecomposee.nMorceauxY = image.hauteur / hauteurMorceaux;
+
+	imageDecomposee.morceaux = new Image * [imageDecomposee.nMorceauxY];
 	for (int i : range(imageDecomposee.nMorceauxY)) {
-		// TODO: Allouer la ligne de morceaux courante en fonction du nombre de morceaux en x
-        imageDecomposee.morceaux[i] = new Image[imageDecomposee.nMorceauxX];
+
+		imageDecomposee.morceaux[i] = new Image[imageDecomposee.nMorceauxX];
 		for (int j : range(imageDecomposee.nMorceauxX)) {
-			// TODO: Utiliser extraireMorceau pour obtenir une image pour chaque morceau de chaque ligne
-            imageDecomposee.morceaux[i][j] = extraireMorceau(image, j,
-                i, hauteurMorceaux, largeurMorceaux);
+
+			imageDecomposee.morceaux[i][j] = extraireMorceau(image, j * largeurMorceaux,
+				i * hauteurMorceaux, hauteurMorceaux, largeurMorceaux);
 		}
 	}
 	return imageDecomposee;
@@ -257,24 +261,24 @@ ImageDecomposee decomposerImage(const Image& image, const int hauteurMorceaux, c
 
 
 /**
- * Melange le tableau de morceaux
+ * Mélange le tableau de morceaux
  *
- * \param [in] imageDecomposee		Les morceaux a melanger
+ * \param [in] imageDecomposee		Les morceaux à mélanger
  *
- * \return les morceaux melange
+ * \return Les morceaux mélangés
  */
-ImageDecomposee melangerImage(ImageDecomposee imageDecomposee) 
+ImageDecomposee melangerImage(ImageDecomposee imageDecomposee)
 {
-    Image morceauTemp{};
-    int x, y;
+	Image morceauTemp{};
+	int x, y;
 	for (int i : range(imageDecomposee.nMorceauxY)) {
 		for (int j : range(imageDecomposee.nMorceauxX)) {
-			// Inverser le morceau courant avec un morceau choisi au hasard
-            morceauTemp = imageDecomposee.morceaux[i][j];
-            x = rand() % imageDecomposee.nMorceauxX;
-            y = rand() % imageDecomposee.nMorceauxY;
-            imageDecomposee.morceaux[i][j] = imageDecomposee.morceaux[y][x];
-            imageDecomposee.morceaux[y][x] = morceauTemp;
+
+			morceauTemp = imageDecomposee.morceaux[i][j];
+			x = rand() % imageDecomposee.nMorceauxX;
+			y = rand() % imageDecomposee.nMorceauxY;
+			imageDecomposee.morceaux[i][j] = imageDecomposee.morceaux[y][x];
+			imageDecomposee.morceaux[y][x] = morceauTemp;
 		}
 	}
 	return imageDecomposee;
@@ -282,31 +286,31 @@ ImageDecomposee melangerImage(ImageDecomposee imageDecomposee)
 
 
 /**
- * CrÃ©e une image Ã  partir d'une image dÃ©composÃ©e
+ * Crée une image à partir d'une image décomposée
  *
- * \param [in] imageDecomposee		L'image de dÃ©part
+ * \param [in] imageDecomposee		L'image de départ
  *
- * \return l'image recomposÃ©e
+ * \return L'image recomposée
  */
-Image recomposerImage(const ImageDecomposee imageDecomposee) 
+Image recomposerImage(const ImageDecomposee imageDecomposee)
 {
 	Image image;
 	int largeurMorceau = imageDecomposee.morceaux[0][0].largeur;
 	int hauteurMorceau = imageDecomposee.morceaux[0][0].hauteur;
-    int blocX, blocY, y, x;
-	// TODO: Allouer l'image
-    image = allouerImage(largeurMorceau * imageDecomposee.nMorceauxX, 
-        hauteurMorceau * imageDecomposee.nMorceauxY);
-    for (int i : range(image.hauteur)) {
-        blocY = i / hauteurMorceau;
-        y = i - blocY * hauteurMorceau;
-        for (int j : range(image.largeur)) {
-            // TODO: Copier le pixel correspondant du morceau dans l'image
-            blocX = j / largeurMorceau;
-            x = j - blocX * largeurMorceau;
-            image.pixels[i][j] = imageDecomposee.morceaux[blocY][blocX].pixels[y][x];
-        }
-    }
+	int blocX, blocY, y, x;
+
+	image = allouerImage(largeurMorceau * imageDecomposee.nMorceauxX,
+		hauteurMorceau * imageDecomposee.nMorceauxY);
+	for (int i : range(image.hauteur)) {
+		blocY = i / hauteurMorceau;
+		y = i - blocY * hauteurMorceau;
+		for (int j : range(image.largeur)) {
+
+			blocX = j / largeurMorceau;
+			x = j - blocX * largeurMorceau;
+			image.pixels[i][j] = imageDecomposee.morceaux[blocY][blocX].pixels[y][x];
+		}
+	}
 	return image;
 }
 

@@ -1,6 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-///				ENTETE
-////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// \title       Travail dirigé no 5
+// \description Déclaration de toutes les fonctions écrites dans CodeDemande.cpp
+// \file        CodeDemande.hpp
+// \author      Marc-André Gosselin (2020217)
+// \author      Martin Careau (1978446)
+// \date        09/06/2020
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
@@ -31,57 +36,65 @@ using namespace std;
 //TODO Les déclarations de vos fonctions vont ici
 
 /**
- * Lit une dimension des morceaux et s'assure qu'elle est valide
+ * Lit les entêtes BMP et DIB d'un fichier donné.
  *
- * \param [in] fichier				Le fichier a lire l'entete
+ * \param [in] fichier				Le fichier à lire l'entête
  *
- * \return l'entete DIB du fichier donne
+ * \return l'entête DIB du fichier donné
  */
 EnteteDib lireEnteteFichier(fstream& fichier);
 
 
 /**
- * Lit les pixels d’une image à partir d’un fichier
+ * Lit les pixels d’une image à partir d’un fichier binaire
  *
- * \param [in] fichier			Le fichier overt en binaire avec l'image
- * \param [in] image		    L'image deja allouee
+ * \param [in] fichier			Le fichier ouvert en binaire qui contient l'image
+ * \param [in] image		    L'image deja allouée
+ *
+ * \return Rien
  */
 void lireDonneesImage(fstream& fichier, Image& image);
 
 
 /**
- * Ecrit les pixels d'une image dans un fichier
+ * Écrit les pixels d'une image dans un fichier binaire
  *
- * \param [in] fichier			Le fichier overt en binaire pour l'ecriture
- * \param [in] image		    L'image a ecrire
+ * \param [in] fichier			Le fichier ouvert en binaire pour l'écriture
+ * \param [in] image		    L'image à écrire
+ *
+ * \return Rien
  */
 void ecrireDonneesImage(fstream& fichier, const Image& image);
 
 
 /**
- * Ecrire une image dans un fichier
+ * Écrire une image dans un fichier binaire
  *
- * \param [in] nomFichier		Le nom du fichier image
- * \param [in] image		    L'image a ecrire
- * \param [in] ok               un bool representant le succes de l'opperation
+ * \param [in] nomFichier		Le nom du fichier image à ouvrir en écriture binaire
+ * \param [in] image		    L'image à écrire
+ * \param [in] ok               Un bool représentant le succès de l'opération
+ *
+ * \return Rien
  */
 void ecrireImage(const string& nomFichier, const Image& image, bool& ok);
 
 
 /**
- * Alloue une image avec la hauteur et largeur
+ * Alloue avec un pointeur une image selon la hauteur et la largeur
  *
  * \param [in] largeur			Largeur de l'image
  * \param [in] hauteur          Hauteur de l'image
  *
- * \return une image alloue ou vide s'il y a eu un echec
+ * \return Une image allouée ou vide (s'il y a eu un échec)
  */
 Image allouerImage(unsigned largeur, unsigned hauteur);
 
 /**
  * Retire l'allocation de pointeur d'une image
  *
- * \param [in] image				L'image a desallouer
+ * \param [in] image				L'image à désallouer
+ *
+ * \return Rien
  */
 void desallouerImage(Image& image);
 
@@ -89,8 +102,8 @@ void desallouerImage(Image& image);
 /**
  * Lit une image d'un fichier
  *
- * \param [in] nomFichier		Le nom du fichier image
- * \param [in] ok               un bool representant la reussite de l'ouverture
+ * \param [in] nomFichier		Le nom du fichier image à ouvrir en lecture binaire
+ * \param [in] ok               Un bool représentant la réussite (ou non) de l'ouverture
  *
  * \return L'image extraite du fichier
  */
@@ -100,35 +113,35 @@ Image lireImage(const string& nomFichier, bool& ok);
 /**
  * Extrait un rectangle dans l'image
  *
- * \param [in] image				L'image a extraire un rectangle
- * \param [in] x            		La position en x du coin haut gauche
- * \param [in] y            		La position en y du coin haut gauche
+ * \param [in] image				L'image à extraire un rectangle
+ * \param [in] x            		La position en x du coin haut gauche de l'image
+ * \param [in] y            		La position en y du coin haut gauche de l'image
  * \param [in] hauteur      		La hauteur du rectangle
  * \param [in] largeur      		La largeur du rectangle
  *
- * \return le morceau de l'image
+ * \return Le morceau de l'image
  */
 Image extraireMorceau(const Image& image, const int x, const int y, const int hauteur, const int largeur);
 
 
 /**
- * Decompose une image en plusieurs morceaux
+ * Décompose une image en plusieurs morceaux
  *
- * \param [in] image				L'image a decomposer
+ * \param [in] image				L'image à décomposer
  * \param [in] hauteurMorceaux		La hauteur du morceau
  * \param [in] largeurMorceaux		La largeur du morceau
  *
- * \return l'image decomposee en morceaux
+ * \return L'image décomposée en morceaux
  */
 ImageDecomposee decomposerImage(const Image& image, const int hauteurMorceaux, const int largeurMorceaux);
 
 
 /**
- * Melange le tableau de morceaux
+ * Mélange le tableau de morceaux
  *
- * \param [in] imageDecomposee		Les morceaux a melanger
+ * \param [in] imageDecomposee		Les morceaux à mélanger
  *
- * \return les morceaux melange
+ * \return Les morceaux mélangés
  */
 ImageDecomposee melangerImage(ImageDecomposee imageDecomposee);
 
@@ -138,10 +151,9 @@ ImageDecomposee melangerImage(ImageDecomposee imageDecomposee);
  *
  * \param [in] imageDecomposee		L'image de départ
  *
- * \return l'image recomposée
+ * \return L'image recomposée
  */
 Image recomposerImage(const ImageDecomposee imageDecomposee);
-
 
 #pragma endregion //}
 
