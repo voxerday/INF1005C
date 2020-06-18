@@ -1,6 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////
-///     ENTETE
-////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// \title       Travail dirigé no 6
+// \description Programme qui permet de créer une sonnerie, la modifier, l’afficher ou la recommencer.
+// \file        main.cpp
+// \author      Marc-André Gosselin (2020217)
+// \author      Martin Careau (1978446)
+// \date        18/06/2020
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 #include <iostream>
@@ -112,13 +117,12 @@ uint64_t obtenirBitsDeSonnerie(uint64_t sonnerie, uint64_t position, uint64_t nB
 }
 
 /**
- * Retourne les bits de la sonnerie à une position donnée
+ * Retourne une sonnerie sous la forme uint64_t
  *
- * \param [in] sonnerie	    La sonnerie à extraire des bits
- * \param [in] position		La position où extraire les bits
- * \param [in] nBits		    Nombre de bits de la note ou durée
+ * \param [in] duree	    La duree de la sonnerie
+ * \param [in] notes		Un tableau de notes
  *
- * \return Les bits extrait de la sonnerie
+ * \return La sonnerie sous 64 bits
  */
 uint64_t convertirSonnerieEnInt(uint64_t duree, uint64_t* notes) {
     uint64_t sonnerie = 0;
@@ -131,6 +135,11 @@ uint64_t convertirSonnerieEnInt(uint64_t duree, uint64_t* notes) {
     return sonnerie;
 }
 
+/**
+ * Crée une sonnerie par l'utilisateur
+ *
+ * \return La sonnerie nouvellement créée
+ */
 uint64_t creerNouvelleSonnerie() {
     // TODO: Lire la durée de la sonnerie
     uint64_t duree = lireValeurValide("Veuillez entrer la duree de la sonnerie", dureeMax);
@@ -144,6 +153,11 @@ uint64_t creerNouvelleSonnerie() {
     return convertirSonnerieEnInt(duree, notes);
 }
 
+/**
+ * Ajoute une note donnée par l'utilisateur à la sonnerie
+ *
+ * \param [in] sonnerie	    La sonnerie à laquelle ajouter une note
+ */
 void ajouterNote(uint64_t& sonnerie) {
     // TODO: Si le nombre maximal de notes n'est pas atteint:
     if (sonnerie < 0xf00000000000000) {
@@ -152,7 +166,7 @@ void ajouterNote(uint64_t& sonnerie) {
         sonnerie += 0x100000000000000;
         // TODO: Lire et ajouter une note à la fin de la sonnerie
         uint64_t note = lireValeurValide("Veuillez entrer la note", nNotes);
-        ajouterBitsDansSonnerie(sonnerie, duree, note, nBitsNote);//+= effectuerDecalageAGauche(note, calculerDecalage(duree, nBitsDuree));
+        ajouterBitsDansSonnerie(sonnerie, duree, note, nBitsNote);
     }
     // TODO: Sinon, afficher un message d'erreur
     else {
@@ -160,6 +174,11 @@ void ajouterNote(uint64_t& sonnerie) {
     }
 }
 
+/**
+ * Retirer la dernière note d'une sonnerie
+ *
+ * \param [in] sonnerie	    La sonnerie à retirer la dernière note
+ */
 void enleverNote(uint64_t& sonnerie) {
     // TODO: Si la sonnerie n'est pas vide:
     if (sonnerie >= 0x1000000000000000) {
@@ -180,6 +199,11 @@ void enleverNote(uint64_t& sonnerie) {
     }
 }
 
+/**
+ * Modifie une note à une position choisie par l'utilisateur
+ *
+ * \param [in] sonnerie	    La sonnerie à modifier
+ */
 void modifierNote(uint64_t& sonnerie) {
     // TODO: Si la sonnerie n'est pas vide:
     if (sonnerie >= 0x100000000000000) {
@@ -197,6 +221,13 @@ void modifierNote(uint64_t& sonnerie) {
     }
 }
 
+/**
+ * Initialise une portée
+ *
+ * \param [in] nColonnes    La durée de la sonnerie 
+ *
+ * \return La portée initialisé
+ */
 Portee initialiserPortee(uint64_t nColonnes) {
     // TODO: Créer une nouvelle portée ayant nColonnes. Le nombre de lignes de la portée est de taillePortee
     Portee portee{};
@@ -216,6 +247,13 @@ Portee initialiserPortee(uint64_t nColonnes) {
     return portee;
 }
 
+/**
+ * Retourne la portée d'une sonnerie
+ *
+ * \param [in] sonnerie	    La sonnerie à transcrire sur une portée
+ *
+ * \return La portée de la sonnerie
+ */
 Portee construirePortee(uint64_t sonnerie) {
     // TODO: Initialiser la portée en fonction de la durée de la sonnerie
     uint64_t duree = obtenirBitsDeSonnerie(sonnerie, 0, nBitsDuree);
@@ -235,6 +273,11 @@ Portee construirePortee(uint64_t sonnerie) {
     return portee;
 }
 
+/**
+ * Affiche la portée à l'écran
+ *
+ * \param [in] portee	    La portée à afficher
+ */
 void afficherPortee(Portee portee) {
     // TODO: Afficher toutes les cases de la portée
     for (uint64_t i : range(taillePortee)) {
